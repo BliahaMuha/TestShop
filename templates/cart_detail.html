@@ -2,33 +2,20 @@
 
 {% block content %}
   <h1>Корзина</h1>
-  {% if cart_items %}
-    <table>
-      <thead>
-        <tr>
-          <th>Название</th>
-          <th>Цена</th>
-          <th>Количество</th>
-          <th>Удалить</th>
-        </tr>
-      </thead>
-      <tbody>
-        {% for item in cart_items %}
-          <tr>
-              <td>{{ item.product.name }}</td>
-              <td>{{ item.product.price }}</td>
-              <td><a>{{ item.quantity }}</a></td>
-              <td><a href="{% url 'remove_from_cart' item.product.id %}">Удалить</a></td>
-          <br>
-          </tr>
+{% if cart %}
+    <ul>
+        {% for item in cart %}
+            <li>{{item.product.name}} : Количество  {{ item.quantity }} </li>
+                <form action="{% url 'remove_from_cart' product_id=item.product.id  %}" method="POST">
+                {% csrf_token %}
+                <button type="submit">Удалить из корзины</button>
+            </form>
         {% endfor %}
-        <tr>
-        </tr>
-      </tbody>
-    </table>
-      <a href="{% url 'checkout' %}" class="button">Оформить заказ</a>
-      <a href="{% url 'clear_cart' %}">Очистить корзину</a>
-  {% else %}
-    <p>Корзина пуста ;(</p>
-  {% endif %}
+    </ul>
+
+    {% else %}
+        <p>Корзина пуста</p>
+    {% endif %}
+     <a href="{% url 'checkout' %}" class="button">Оформить заказ</a>
+     <a href="{% url 'clear_cart' %}">Очистить корзину</a>
 {% endblock %}

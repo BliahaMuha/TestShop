@@ -14,6 +14,7 @@ class Cart(models.Model):
 
 
 class CartProduct(models.Model):
+    user = models.ForeignKey(User, null=True, blank=True, on_delete=models.CASCADE)
     session = models.ForeignKey(Session, on_delete=models.SET_NULL, blank=True, null=True)
     cart = models.ForeignKey(Cart, on_delete=models.CASCADE)
     product = models.ForeignKey(Product, on_delete=models.CASCADE)
